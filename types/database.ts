@@ -1,0 +1,309 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export interface Database {
+  public: {
+    Tables: {
+      organizations: {
+        Row: {
+          id: string
+          name: string
+          type: string
+          project_code: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          type: string
+          project_code?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          type?: string
+          project_code?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      users: {
+        Row: {
+          id: string
+          email: string
+          full_name: string
+          organization_id: string | null
+          role: 'admin' | 'instructor' | 'learner'
+          preferred_locale: 'en' | 'fr'
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          email: string
+          full_name: string
+          organization_id?: string | null
+          role?: 'admin' | 'instructor' | 'learner'
+          preferred_locale?: 'en' | 'fr'
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          full_name?: string
+          organization_id?: string | null
+          role?: 'admin' | 'instructor' | 'learner'
+          preferred_locale?: 'en' | 'fr'
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      courses: {
+        Row: {
+          id: string
+          title_en: string
+          title_fr: string
+          description_en: string | null
+          description_fr: string | null
+          duration_minutes: number
+          created_by: string
+          is_published: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title_en: string
+          title_fr: string
+          description_en?: string | null
+          description_fr?: string | null
+          duration_minutes: number
+          created_by: string
+          is_published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title_en?: string
+          title_fr?: string
+          description_en?: string | null
+          description_fr?: string | null
+          duration_minutes?: number
+          created_by?: string
+          is_published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      modules: {
+        Row: {
+          id: string
+          course_id: string
+          title_en: string
+          title_fr: string
+          order_index: number
+          video_url: string | null
+          content_en: string | null
+          content_fr: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          course_id: string
+          title_en: string
+          title_fr: string
+          order_index: number
+          video_url?: string | null
+          content_en?: string | null
+          content_fr?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          course_id?: string
+          title_en?: string
+          title_fr?: string
+          order_index?: number
+          video_url?: string | null
+          content_en?: string | null
+          content_fr?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      quizzes: {
+        Row: {
+          id: string
+          module_id: string
+          question_en: string
+          question_fr: string
+          options: Json
+          correct_answer: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          module_id: string
+          question_en: string
+          question_fr: string
+          options: Json
+          correct_answer: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          module_id?: string
+          question_en?: string
+          question_fr?: string
+          options?: Json
+          correct_answer?: number
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      enrollments: {
+        Row: {
+          id: string
+          user_id: string
+          course_id: string
+          enrolled_at: string
+          completed_at: string | null
+          progress_percentage: number
+          certificate_issued: boolean
+          certificate_url: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          course_id: string
+          enrolled_at?: string
+          completed_at?: string | null
+          progress_percentage?: number
+          certificate_issued?: boolean
+          certificate_url?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          course_id?: string
+          enrolled_at?: string
+          completed_at?: string | null
+          progress_percentage?: number
+          certificate_issued?: boolean
+          certificate_url?: string | null
+        }
+      }
+      module_progress: {
+        Row: {
+          id: string
+          enrollment_id: string
+          module_id: string
+          completed: boolean
+          quiz_score: number | null
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          enrollment_id: string
+          module_id: string
+          completed?: boolean
+          quiz_score?: number | null
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          enrollment_id?: string
+          module_id?: string
+          completed?: boolean
+          quiz_score?: number | null
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      artifacts: {
+        Row: {
+          id: string
+          enrollment_id: string
+          file_name: string
+          file_url: string
+          file_type: string
+          uploaded_at: string
+        }
+        Insert: {
+          id?: string
+          enrollment_id: string
+          file_name: string
+          file_url: string
+          file_type: string
+          uploaded_at?: string
+        }
+        Update: {
+          id?: string
+          enrollment_id?: string
+          file_name?: string
+          file_url?: string
+          file_type?: string
+          uploaded_at?: string
+        }
+      }
+      audit_logs: {
+        Row: {
+          id: string
+          user_id: string | null
+          action: string
+          resource_type: string
+          resource_id: string | null
+          metadata: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          action: string
+          resource_type: string
+          resource_id?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          action?: string
+          resource_type?: string
+          resource_id?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      user_role: 'admin' | 'instructor' | 'learner'
+      locale: 'en' | 'fr'
+    }
+  }
+}
