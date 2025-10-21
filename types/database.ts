@@ -15,6 +15,11 @@ export interface Database {
           name: string
           type: string
           project_code: string | null
+          slug?: string
+          settings?: Json
+          subscription_tier?: 'free' | 'pro' | 'enterprise'
+          subscription_status?: 'active' | 'cancelled' | 'past_due'
+          billing_email?: string
           created_at: string
           updated_at: string
         }
@@ -292,6 +297,131 @@ export interface Database {
           resource_id?: string | null
           metadata?: Json | null
           created_at?: string
+        }
+      }
+      permissions: {
+        Row: {
+          id: string
+          name: string
+          display_name_en: string
+          display_name_fr: string
+          category: string
+          description_en: string | null
+          description_fr: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          display_name_en: string
+          display_name_fr: string
+          category: string
+          description_en?: string | null
+          description_fr?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          display_name_en?: string
+          display_name_fr?: string
+          category?: string
+          description_en?: string | null
+          description_fr?: string | null
+          created_at?: string
+        }
+      }
+      roles: {
+        Row: {
+          id: string
+          organization_id: string | null
+          name: string
+          display_name_en: string
+          display_name_fr: string
+          description_en: string | null
+          description_fr: string | null
+          is_system_role: boolean
+          is_default: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id?: string | null
+          name: string
+          display_name_en: string
+          display_name_fr: string
+          description_en?: string | null
+          description_fr?: string | null
+          is_system_role?: boolean
+          is_default?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string | null
+          name?: string
+          display_name_en?: string
+          display_name_fr?: string
+          description_en?: string | null
+          description_fr?: string | null
+          is_system_role?: boolean
+          is_default?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      role_permissions: {
+        Row: {
+          id: string
+          role_id: string
+          permission_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          role_id: string
+          permission_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          role_id?: string
+          permission_id?: string
+          created_at?: string
+        }
+      }
+      user_roles: {
+        Row: {
+          id: string
+          user_id: string
+          role_id: string
+          organization_id: string | null
+          assigned_by: string | null
+          assigned_at: string
+          expires_at: string | null
+          is_active: boolean
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          role_id: string
+          organization_id?: string | null
+          assigned_by?: string | null
+          assigned_at?: string
+          expires_at?: string | null
+          is_active?: boolean
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          role_id?: string
+          organization_id?: string | null
+          assigned_by?: string | null
+          assigned_at?: string
+          expires_at?: string | null
+          is_active?: boolean
         }
       }
     }
