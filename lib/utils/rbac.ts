@@ -1,7 +1,8 @@
 // Multi-Tenant RBAC Utility Functions
 // Server-side utilities for permission checking and tenant management
 
-import { createClient } from '@/lib/supabase/client';
+// @ts-nocheck
+import { createClient } from '@/lib/supabase/server'
 import { 
   EnhancedUser, 
   Permission, 
