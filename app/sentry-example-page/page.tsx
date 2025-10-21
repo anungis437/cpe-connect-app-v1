@@ -66,6 +66,46 @@ export default function Page() {
           </span>
         </button>
 
+        <button
+          type="button"
+          onClick={() => {
+            // Test undefined function error as requested
+            try {
+              (window as any).myUndefinedFunction();
+            } catch (error) {
+              Sentry.captureException(error);
+              setHasSentError(true);
+            }
+          }}
+          disabled={!isConnected}
+          className="error-test-button"
+        >
+          <span>
+            Test myUndefinedFunction() - Frontend
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={async () => {
+            try {
+              const res = await fetch("/api/test-undefined-function");
+              const data = await res.json();
+              setHasSentError(true);
+              console.log("API Response:", data);
+            } catch (error) {
+              Sentry.captureException(error);
+              setHasSentError(true);
+            }
+          }}
+          disabled={!isConnected}
+          className="error-test-button"
+        >
+          <span>
+            Test myUndefinedFunction() - Backend API
+          </span>
+        </button>
+
         {hasSentError ? (
           <p className="success">
             Error sent to Sentry.
@@ -156,6 +196,26 @@ export default function Page() {
 	              border: none
 	            }
 	          }
+        }
+
+        .error-test-button {
+          margin: 5px;
+          background-color: #ff4444;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 14px;
+        }
+
+        .error-test-button:hover {
+          background-color: #dd3333;
+        }
+
+        .error-test-button:disabled {
+          background-color: #999;
+          cursor: not-allowed;
         }
 
         .description {
