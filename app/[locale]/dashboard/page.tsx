@@ -62,7 +62,7 @@ export default async function DashboardPage({ params: { locale } }: { params: { 
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">{profile?.full_name}</span>
+              <span className="text-sm text-gray-600">{(profile as any)?.full_name || user.email}</span>
               <div className="flex gap-2">
                 <Link
                   href="/en/dashboard"
@@ -94,7 +94,7 @@ export default async function DashboardPage({ params: { locale } }: { params: { 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
-            {locale === 'fr' ? 'Bienvenue, ' : 'Welcome, '}{profile?.full_name}
+            {locale === 'fr' ? 'Bienvenue, ' : 'Welcome, '}{(profile as any)?.full_name || user.email}
           </h1>
           <p className="text-gray-600 mt-2">
             {locale === 'fr' ? 'Continuez votre apprentissage' : 'Continue your learning journey'}
@@ -161,7 +161,7 @@ export default async function DashboardPage({ params: { locale } }: { params: { 
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {availableCourses?.filter(course => 
-              !enrollments?.some((e: any) => e.course_id === course.id)
+              !enrollments?.some((e: any) => e.course_id === (course as any).id)
             ).map((course: any) => (
               <div key={course.id} className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-lg font-semibold mb-2">

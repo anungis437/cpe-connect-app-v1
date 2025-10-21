@@ -115,15 +115,15 @@ export async function authenticateRequest(): Promise<{
     const supabase = createClient()
     
     const {
-      data: { user, session },
+      data: { user },
       error
     } = await supabase.auth.getUser()
     
-    if (error || !user || !session) {
+    if (error || !user) {
       return null
     }
     
-    return { user, session, supabase }
+    return { user, session: null, supabase }
   } catch (error) {
     console.error('Authentication error:', error)
     return null
