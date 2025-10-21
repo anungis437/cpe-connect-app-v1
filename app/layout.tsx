@@ -1,0 +1,15 @@
+import type { Metadata } from 'next'
+import './globals.css'
+
+export const metadata: Metadata = {
+  title: 'CPE Academy - LMS',
+  description: 'Bilingual Self-Paced Learning Management System',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return children
+}
