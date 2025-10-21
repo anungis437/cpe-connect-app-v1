@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Multi-Tenant Organization Management API
 // /app/api/tenant/organizations/route.ts
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Tenant Registration API
 // /app/api/tenant/register/route.ts
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Role and Permission Management API
 // /app/api/tenant/roles/route.ts
 

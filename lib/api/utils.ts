@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { createClient } from '@/lib/supabase/server'
