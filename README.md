@@ -335,4 +335,5 @@ For issues or questions, please open an issue on GitHub.
 
 ---
 
-Built with ❤️ for CPE Academy
+Built with ❤️ for CPE Academy< ! - -   E n v i r o n m e n t   v a r i a b l e s   c o n f i g u r e d   f o r   V e r c e l   d e p l o y m e n t   2 0 2 5 - 1 0 - 2 1   1 1 : 5 5 : 1 8   - - >  
+ 
