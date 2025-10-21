@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "Sentry": {
+      "url": "https://mcp.sentry.dev/mcp/nzila-ventures/cpe_connect_app_v1",
+      "type": "http"
+    }
+  }
+}
