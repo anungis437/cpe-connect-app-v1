@@ -80,22 +80,33 @@ const nextConfig = {
     ]
   },
 
-  // Bundle analyzer
-  ...(process.env.ANALYZE === 'true' && {
-    webpack: (config, { isServer }) => {
-      if (!isServer) {
-        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-        config.plugins.push(
-          new BundleAnalyzerPlugin({
-            analyzerMode: 'static',
-            openAnalyzer: false,
-            reportFilename: '../bundle-analyzer-report.html',
-          })
-        )
-      }
-      return config
-    },
-  }),
+  // Webpack configuration
+  webpack: (config, { isServer }) => {
+    // Exclude test files from build
+    config.module.rules.push({
+      test: /\.(test|spec)\.(js|ts|tsx)$/,
+      loader: 'ignore-loader'
+    });
+    
+    // Exclude test directories from compilation
+    config.resolve.alias = {
+      ...config.resolve.alias,
+    };
+    
+    // Bundle analyzer (conditional)
+    if (process.env.ANALYZE === 'true' && !isServer) {
+      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          openAnalyzer: false,
+          reportFilename: '../bundle-analyzer-report.html',
+        })
+      );
+    }
+    
+    return config;
+  },
 
   // Environment variables validation
   env: {

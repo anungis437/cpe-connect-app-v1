@@ -24,9 +24,9 @@ export interface SubscriptionPlan {
   updated_at: string;
 }
 
-export interface EnhancedOrganization extends Organization {
+export interface EnhancedOrganization extends Omit<Organization, 'subscription_status'> {
   subscription_plan_id?: string;
-  subscription_status: 'trial' | 'active' | 'suspended' | 'cancelled';
+  subscription_status?: 'trial' | 'active' | 'suspended' | 'cancelled' | 'past_due';
   subscription_start_date?: string;
   subscription_end_date?: string;
   billing_email?: string;

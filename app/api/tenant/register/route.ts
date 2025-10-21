@@ -4,7 +4,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase/server';
-import { createClient } from '@/lib/supabase/client';
 
 // POST /api/tenant/register - Self-service tenant registration
 export async function POST(request: NextRequest) {
@@ -94,8 +93,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: orgError.message }, { status: 500 });
       }
 
-      // Create auth user using admin client
-      const supabaseClient = createClient();
+      // Create auth user using server client
+      const supabaseClient = createServerClient(request);
       const { data: authData, error: authError } = await supabaseClient.auth.signUp({
         email: admin_email,
         password: admin_password,
