@@ -17,6 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // This is the root layout - it should only pass through to locale-specific layouts
+  // In Next.js App Router with internationalization, 
+  // the locale-specific layout provides the html/body structure
   return children
 }

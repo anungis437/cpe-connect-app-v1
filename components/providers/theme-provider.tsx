@@ -43,44 +43,17 @@ export function ThemeProvider({
   enableSystem = true,
   disableTransitionOnChange = false,
 }: ThemeProviderProps) {
-  const [themeName, setThemeNameState] = useState<ThemeName>(defaultThemeName)
+  // Use a function to get initial theme to prevent hydration mismatch
+  const [themeName, setThemeNameState] = useState<ThemeName>(() => defaultThemeName)
   const [mounted, setMounted] = useState(false)
 
   // Get current theme object
   const theme = themes[themeName]
 
-  // Initialize theme on mount
+  // Initialize theme on mount - simplified approach
   useEffect(() => {
-    try {
-      // Check for stored theme preference
-      const storedTheme = localStorage.getItem(storageKey) as ThemeName | null
-      
-      if (storedTheme && storedTheme in themes) {
-        setThemeNameState(storedTheme)
-      } else if (enableSystem) {
-        // Check system preference
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-        const systemTheme: ThemeName = mediaQuery.matches ? 'dark' : 'light'
-        setThemeNameState(systemTheme)
-        
-        // Listen for system theme changes
-        const handleChange = (e: MediaQueryListEvent) => {
-          const newSystemTheme: ThemeName = e.matches ? 'dark' : 'light'
-          // Only apply if user hasn't set a preference
-          if (!localStorage.getItem(storageKey)) {
-            setThemeNameState(newSystemTheme)
-          }
-        }
-        
-        mediaQuery.addEventListener('change', handleChange)
-        return () => mediaQuery.removeEventListener('change', handleChange)
-      }
-    } catch (error) {
-      console.warn('Failed to initialize theme from localStorage:', error)
-    }
-    
     setMounted(true)
-  }, [storageKey, enableSystem])
+  }, [])
 
   // Apply theme to DOM
   useEffect(() => {
@@ -143,17 +116,10 @@ export function ThemeProvider({
     setTheme,
     toggleTheme,
     isDark: themeName === 'dark',
+    mounted,
   }
 
-  // Don't render until mounted to prevent hydration mismatch
-  if (!mounted) {
-    return (
-      <div className="invisible">
-        {children}
-      </div>
-    )
-  }
-
+  // Always render the provider to prevent hydration mismatches
   return (
     <ThemeContext.Provider value={contextValue}>
       {children}
@@ -249,22 +215,31 @@ export function useThemeColors() {
  * Utility component for theme-aware styling
  * SSR-safe: Only runs on client side to prevent hydration mismatches
  */
-export function ThemeScript() {
+export function ThemeScript({ storageKey = THEME_STORAGE_KEY }: { storageKey?: string } = {}) {
   return (
     <script
       dangerouslySetInnerHTML={{
         __html: `
           (function() {
             try {
-              // Only run on client side
-              if (typeof window === 'undefined') return;
+              // Set initial theme before React hydration to prevent flash
+              var theme = 'light'; // default fallback
               
-              const theme = localStorage.getItem('${THEME_STORAGE_KEY}') || 
-                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+              if (typeof window !== 'undefined') {
+                var stored = localStorage.getItem('${storageKey}');
+                if (stored === 'dark' || stored === 'light') {
+                  theme = stored;
+                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  theme = 'dark';
+                }
+              }
+              
               document.documentElement.setAttribute('data-theme', theme);
+              document.documentElement.style.setProperty('color-scheme', theme);
             } catch (e) {
-              // Fallback to light theme if localStorage is not available
+              // Fallback: always set light theme if anything fails
               document.documentElement.setAttribute('data-theme', 'light');
+              document.documentElement.style.setProperty('color-scheme', 'light');
             }
           })();
         `,

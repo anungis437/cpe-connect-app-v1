@@ -313,4 +313,5 @@ export interface ThemeContextType {
   setTheme: (themeName: ThemeName) => void
   toggleTheme: () => void
   isDark: boolean
+  mounted: boolean
 }

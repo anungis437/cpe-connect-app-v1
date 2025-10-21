@@ -1,11 +1,17 @@
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { cn } from '@/lib/design-system/utils'
 import { ThemeProvider, ThemeScript } from '@/components/ui'
+import enMessages from '../../messages/en.json'
+import frMessages from '../../messages/fr.json'
 
 const locales = ['en', 'fr']
+
+const messages = {
+  en: enMessages,
+  fr: frMessages,
+} as const
 
 // Design system fonts
 const inter = Inter({
@@ -34,26 +40,28 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   }
 }
 
-export default async function LocaleLayout({
-  children,
-  params: { locale },
-}: {
+interface LocaleLayoutProps {
   children: React.ReactNode
   params: { locale: string }
-}) {
+}
+
+export default function LocaleLayout({
+  children,
+  params: { locale },
+}: LocaleLayoutProps) {
   // Validate locale
   if (!locales.includes(locale)) {
     notFound()
   }
 
   // Get messages for the locale
-  const messages = await getMessages()
+  const localeMessages = messages[locale as keyof typeof messages] || messages.en
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={cn(inter.variable, jetbrainsMono.variable, 'min-h-screen bg-background font-sans antialiased')}>
-        <ThemeScript />
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <ThemeScript storageKey="cpe-connect-theme" />
+        <NextIntlClientProvider locale={locale} messages={localeMessages}>
           <ThemeProvider
             defaultTheme="light"
             enableSystem
