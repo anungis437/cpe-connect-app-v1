@@ -17,5 +17,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // This is the root layout - it should only pass through to locale-specific layouts
   return children
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import Head from "next/head";
 import * as Sentry from "@sentry/nextjs";
 import { useState, useEffect } from "react";
 
@@ -25,11 +24,6 @@ export default function Page() {
 
   return (
     <div>
-      <Head>
-        <title>sentry-example-page</title>
-        <meta name="description" content="Test Sentry for your Next.js app!" />
-      </Head>
-
       <main>
         <div className="flex-spacer" />
         <svg height="40" width="40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,8 +34,8 @@ export default function Page() {
         </h1>
 
         <p className="description">
-          Click the button below, and view the sample error on the Sentry <a target="_blank" href="https://nzila-ventures.sentry.io/issues/?project=4510228062011472">Issues Page</a>.
-          For more details about setting up Sentry, <a target="_blank"
+          Click the button below, and view the sample error on the Sentry <a target="_blank" rel="noopener noreferrer" href="https://nzila-ventures.sentry.io/issues/?project=4510228062011472">Issues Page</a>.
+          For more details about setting up Sentry, <a target="_blank" rel="noopener noreferrer"
            href="https://docs.sentry.io/platforms/javascript/guides/nextjs/">read our docs</a>.
         </p>
 

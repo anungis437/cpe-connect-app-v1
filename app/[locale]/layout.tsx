@@ -46,18 +46,23 @@ export default async function LocaleLayout({
     notFound()
   }
 
+  // Get messages for the locale
+  const messages = await getMessages()
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={cn(inter.variable, jetbrainsMono.variable, 'min-h-screen bg-background font-sans antialiased')}>
         <ThemeScript />
-        <ThemeProvider
-          defaultTheme="light"
-          enableSystem
-          attribute="data-theme"
-          storageKey="cpe-connect-theme"
-        >
-          {children}
-        </ThemeProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ThemeProvider
+            defaultTheme="light"
+            enableSystem
+            attribute="data-theme"
+            storageKey="cpe-connect-theme"
+          >
+            {children}
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

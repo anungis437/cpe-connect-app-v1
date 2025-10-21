@@ -247,19 +247,26 @@ export function useThemeColors() {
 
 /**
  * Utility component for theme-aware styling
+ * SSR-safe: Only runs on client side to prevent hydration mismatches
  */
 export function ThemeScript() {
   return (
     <script
       dangerouslySetInnerHTML={{
         __html: `
-          try {
-            const theme = localStorage.getItem('${THEME_STORAGE_KEY}') || 
-              (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-          } catch (e) {
-            document.documentElement.setAttribute('data-theme', 'light');
-          }
+          (function() {
+            try {
+              // Only run on client side
+              if (typeof window === 'undefined') return;
+              
+              const theme = localStorage.getItem('${THEME_STORAGE_KEY}') || 
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+              document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+              // Fallback to light theme if localStorage is not available
+              document.documentElement.setAttribute('data-theme', 'light');
+            }
+          })();
         `,
       }}
     />
