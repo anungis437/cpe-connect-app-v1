@@ -1,6 +1,5 @@
 import { createServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { Button, Card, CardContent } from '@/components/ui'
 import MainNavigation from '@/components/navigation/main-navigation'

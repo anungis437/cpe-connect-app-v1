@@ -1,8 +1,11 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { Database } from '@/types/database'
+import createIntlMiddleware from 'next-intl/middleware'
 
-// Routes that require authentication
+const locales = ['en', 'fr']
+
+// Routes that require authentication (without locale prefix)
 const protectedRoutes = [
   '/dashboard',
   '/courses',
@@ -26,6 +29,29 @@ const authRoutes = [
   '/auth/forgot-password'
 ]
 
+// Create the intl middleware
+const intlMiddleware = createIntlMiddleware({
+  locales,
+  defaultLocale: 'en'
+})
+
+function getPathnameWithoutLocale(pathname: string) {
+  // Extract the locale from the pathname
+  const segments = pathname.split('/')
+  if (segments.length > 1 && locales.includes(segments[1])) {
+    return '/' + segments.slice(2).join('/')
+  }
+  return pathname
+}
+
+function getLocaleFromPathname(pathname: string) {
+  const segments = pathname.split('/')
+  if (segments.length > 1 && locales.includes(segments[1])) {
+    return segments[1]
+  }
+  return 'en' // default locale
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
@@ -38,6 +64,18 @@ export async function middleware(request: NextRequest) {
   ) {
     return NextResponse.next()
   }
+
+  // Run the intl middleware first to handle locale routing
+  const intlResponse = intlMiddleware(request)
+  
+  // If intl middleware returns a response (redirect), return it
+  if (intlResponse) {
+    return intlResponse
+  }
+
+  // Extract locale and pathname without locale
+  const locale = getLocaleFromPathname(pathname)
+  const pathnameWithoutLocale = getPathnameWithoutLocale(pathname)
 
   let response = NextResponse.next({
     request: {
@@ -100,18 +138,18 @@ export async function middleware(request: NextRequest) {
     }
 
     const isAuthenticated = !!session?.user
-    const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
-    const isAuthRoute = authRoutes.includes(pathname)
-    const isOrgAdminRoute = orgAdminRoutes.some(route => pathname.startsWith(route))
+    const isProtectedRoute = protectedRoutes.some(route => pathnameWithoutLocale.startsWith(route))
+    const isAuthRoute = authRoutes.includes(pathnameWithoutLocale)
+    const isOrgAdminRoute = orgAdminRoutes.some(route => pathnameWithoutLocale.startsWith(route))
 
     // Redirect authenticated users away from auth pages
     if (isAuthenticated && isAuthRoute) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
+      return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url))
     }
 
     // Redirect unauthenticated users to sign in
     if (!isAuthenticated && isProtectedRoute) {
-      const signInUrl = new URL('/auth/signin', request.url)
+      const signInUrl = new URL(`/${locale}/auth/signin`, request.url)
       signInUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(signInUrl)
     }
@@ -145,6 +183,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder files
      */
-    '/((?!_next/static|_next/image|favicon.ico|public/|.*\\..*|api/auth).*)',
+    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
   ],
 }
