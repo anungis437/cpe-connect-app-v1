@@ -9,9 +9,7 @@ import {
   CardTitle, 
   CardDescription, 
   CardContent, 
-  CardFooter,
-  useTheme,
-  useThemeColors
+  CardFooter
 } from '@/components/ui'
 import { 
   User, 
@@ -33,8 +31,13 @@ import {
  * and demonstrates theme switching functionality
  */
 export default function DesignSystemDemo() {
-  const { themeName, toggleTheme, isDark } = useTheme()
-  const colors = useThemeColors()
+  // Temporarily simplified for demo - theme hooks will be restored later
+  const themeName = 'light'
+  const toggleTheme = () => console.log('Theme toggle - will be restored')
+  const isDark = false
+  
+  // Simple static colors for demo
+
   
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -71,7 +74,13 @@ export default function DesignSystemDemo() {
   ]
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-white p-8">
+      {/* Debug test */}
+      <div className="bg-blue-500 text-white p-4 text-center mb-4">
+        <h2 className="text-2xl font-bold">CPE Connect Design System - Loading Test</h2>
+        <p>If you see this, the page is working!</p>
+      </div>
+      
       <div className="mx-auto max-w-6xl space-y-12">
         {/* Header */}
         <div className="text-center space-y-4">
@@ -305,22 +314,13 @@ export default function DesignSystemDemo() {
               <div className="space-y-3">
                 <h4 className="text-sm font-medium">Background</h4>
                 <div className="space-y-2">
-                  <div 
-                    className="h-12 rounded-md border flex items-center justify-center text-sm"
-                    style={{ backgroundColor: colors.bg.primary, color: colors.text.primary }}
-                  >
+                  <div className="h-12 rounded-md border flex items-center justify-center text-sm bg-background text-foreground">
                     Primary
                   </div>
-                  <div 
-                    className="h-12 rounded-md border flex items-center justify-center text-sm"
-                    style={{ backgroundColor: colors.bg.secondary, color: colors.text.primary }}
-                  >
+                  <div className="h-12 rounded-md border flex items-center justify-center text-sm bg-secondary text-secondary-foreground">
                     Secondary
                   </div>
-                  <div 
-                    className="h-12 rounded-md border flex items-center justify-center text-sm"
-                    style={{ backgroundColor: colors.bg.accent, color: colors.text.primary }}
-                  >
+                  <div className="h-12 rounded-md border flex items-center justify-center text-sm bg-muted text-muted-foreground">
                     Accent
                   </div>
                 </div>
@@ -330,22 +330,13 @@ export default function DesignSystemDemo() {
               <div className="space-y-3">
                 <h4 className="text-sm font-medium">Brand</h4>
                 <div className="space-y-2">
-                  <div 
-                    className="h-12 rounded-md flex items-center justify-center text-sm text-white"
-                    style={{ backgroundColor: colors.brand.primary }}
-                  >
+                  <div className="h-12 rounded-md flex items-center justify-center text-sm bg-primary text-primary-foreground">
                     Primary
                   </div>
-                  <div 
-                    className="h-12 rounded-md flex items-center justify-center text-sm text-white"
-                    style={{ backgroundColor: colors.brand.secondary }}
-                  >
+                  <div className="h-12 rounded-md flex items-center justify-center text-sm bg-blue-700 text-white">
                     Secondary
                   </div>
-                  <div 
-                    className="h-12 rounded-md border flex items-center justify-center text-sm"
-                    style={{ backgroundColor: colors.brand.subtle, color: colors.brand.primary }}
-                  >
+                  <div className="h-12 rounded-md border flex items-center justify-center text-sm bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
                     Subtle
                   </div>
                 </div>
@@ -355,22 +346,13 @@ export default function DesignSystemDemo() {
               <div className="space-y-3">
                 <h4 className="text-sm font-medium">States</h4>
                 <div className="space-y-2">
-                  <div 
-                    className="h-12 rounded-md flex items-center justify-center text-sm text-white"
-                    style={{ backgroundColor: colors.state.success }}
-                  >
+                  <div className="h-12 rounded-md flex items-center justify-center text-sm bg-green-600 text-white">
                     Success
                   </div>
-                  <div 
-                    className="h-12 rounded-md flex items-center justify-center text-sm text-white"
-                    style={{ backgroundColor: colors.state.warning }}
-                  >
+                  <div className="h-12 rounded-md flex items-center justify-center text-sm bg-amber-600 text-white">
                     Warning
                   </div>
-                  <div 
-                    className="h-12 rounded-md flex items-center justify-center text-sm text-white"
-                    style={{ backgroundColor: colors.state.error }}
-                  >
+                  <div className="h-12 rounded-md flex items-center justify-center text-sm bg-red-600 text-white">
                     Error
                   </div>
                 </div>

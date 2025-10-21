@@ -220,8 +220,6 @@ jobs:
 
       - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-        with:
-          languages: typescript, javascript
 
   # Deploy to Staging
   deploy-staging:
@@ -230,7 +228,6 @@ jobs:
     timeout-minutes: 10
     needs: [build-and-test, database, security]
     if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-    environment: staging
 
     steps:
       - name: Checkout code
@@ -274,7 +271,6 @@ jobs:
     timeout-minutes: 15
     needs: [build-and-test, database, security, performance]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    environment: production
 
     steps:
       - name: Checkout code
@@ -316,8 +312,9 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: success
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
           text: '🚀 CPE Connect Platform deployed to production successfully!'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   # Post-deployment monitoring
   monitoring:

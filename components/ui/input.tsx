@@ -114,8 +114,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           error && errorId,
           helperText && helperTextId
         )}
-        aria-invalid={error ? true : false}
-        aria-required={required || false}
+        aria-invalid={error ? "true" : "false"}
+        aria-required={required ? "true" : "false"}
         {...props}
       />
     )

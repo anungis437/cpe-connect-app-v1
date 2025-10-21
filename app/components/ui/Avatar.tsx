@@ -175,10 +175,15 @@ export const AvatarGroup = ({
           key={user.id}
           className={cn(
             "relative",
-            onAvatarClick && "cursor-pointer hover:z-10 transition-transform hover:scale-110"
+            onAvatarClick && "cursor-pointer hover:z-10 transition-transform hover:scale-110",
+            // Use Tailwind's z-index classes based on position
+            index === 0 ? "z-50" :
+            index === 1 ? "z-40" :
+            index === 2 ? "z-30" :
+            index === 3 ? "z-20" :
+            "z-10"
           )}
           onClick={() => onAvatarClick?.(user.id)}
-          style={{ zIndex: displayUsers.length - index }}
         >
           <UserAvatar
             src={user.src}

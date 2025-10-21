@@ -79,6 +79,9 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
       },
       // Design system typography
       fontFamily: {
@@ -105,14 +108,6 @@ const config: Config = {
       // Design system spacing
       spacing: {
         ...spacing,
-      },
-      
-      // Design system border radius - extending existing
-      borderRadius: {
-        lg: '0.5rem',
-        xl: '0.75rem',
-        '2xl': '1rem',
-        '3xl': '1.5rem',
       },
       
       // Design system shadows

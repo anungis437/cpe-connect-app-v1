@@ -140,7 +140,8 @@ export function SignInForm() {
                   checked={formData.rememberMe}
                   onChange={handleInputChange('rememberMe')}
                   className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  aria-describedby="remember-label"
+                  aria-labelledby="remember-label"
+                  aria-label="Remember me"
                 />
                 <Label
                   htmlFor="remember"
