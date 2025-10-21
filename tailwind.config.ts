@@ -1,4 +1,14 @@
 import type { Config } from 'tailwindcss'
+import { 
+  colors, 
+  typography, 
+  spacing, 
+  borderRadius, 
+  boxShadow, 
+  animation, 
+  breakpoints, 
+  zIndex 
+} from './lib/design-system/tokens'
 
 const config: Config = {
   content: [
@@ -8,8 +18,11 @@ const config: Config = {
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
     './types/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  darkMode: ['class'],
+  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
+    // Override default screens with design system breakpoints
+    screens: breakpoints,
+    
     container: {
       center: true,
       padding: "2rem",
@@ -18,29 +31,28 @@ const config: Config = {
       },
     },
     extend: {
+      // Design system colors
       colors: {
+        // CSS custom properties for theme switching
         border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
+        input: "hsl(var(--input))", 
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        
+        // Design system color palette
+        ...colors,
+        
+        // Legacy color mappings for gradual migration
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+          ...colors.primary,
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          ...colors.secondary,
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -68,13 +80,60 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      // Design system typography
       fontFamily: {
-        sans: ['var(--font-poppins)', 'Poppins', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['var(--font-poppins)', 'Poppins', 'system-ui', 'sans-serif'],
+        sans: [...typography.fontFamily.sans],
+        display: [...typography.fontFamily.display], 
+        mono: [...typography.fontFamily.mono],
         body: ['var(--font-poppins)', 'Poppins', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         '2xs': ['0.625rem', { lineHeight: '0.75rem' }],
+      },
+      fontWeight: {
+        thin: '100',
+        extralight: '200',
+        light: '300',
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
+        black: '900',
+      },
+      
+      // Design system spacing
+      spacing: {
+        ...spacing,
+      },
+      
+      // Design system border radius - extending existing
+      borderRadius: {
+        lg: '0.5rem',
+        xl: '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+      },
+      
+      // Design system shadows
+      boxShadow: {
+        card: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        cardHover: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        dropdown: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        modal: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+      },
+      
+      // Design system z-index
+      zIndex: {
+        dropdown: '100',
+        sticky: '200',
+        fixed: '300',
+        overlay: '400',
+        modal: '500',
+        popover: '600',
+        tooltip: '700',
+        toast: '800',
+        maximum: '999',
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
