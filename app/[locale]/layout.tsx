@@ -10,6 +10,14 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
 
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+  return {
+    other: {
+      lang: locale,
+    },
+  }
+}
+
 export default async function LocaleLayout({
   children,
   params: { locale },
@@ -25,12 +33,8 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      {children}
+    </NextIntlClientProvider>
   )
 }
