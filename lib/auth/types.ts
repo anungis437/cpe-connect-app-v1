@@ -1,16 +1,9 @@
 import { User, Session } from '@supabase/supabase-js'
 import { Database } from '@/types/database'
 
-// Enhanced user profile type with organization and role information
+// Enhanced user profile type with organization and role information (CPE schema)
 export type UserProfile = Database['public']['Tables']['users']['Row'] & {
   organization?: Database['public']['Tables']['organizations']['Row']
-  user_roles?: Array<{
-    role: Database['public']['Tables']['roles']['Row'] & {
-      role_permissions?: Array<{
-        permission: Database['public']['Tables']['permissions']['Row']
-      }>
-    }
-  }>
 }
 
 // Authentication state types

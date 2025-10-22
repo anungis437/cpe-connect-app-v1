@@ -1,3 +1,5 @@
+// CPE Connect Database Types - Enhanced for CPE Program Structure
+
 export type Json =
   | string
   | number
@@ -6,6 +8,117 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type InterventionCategory = 
+  | 'enterprise_interventions'
+  | 'partnership_interventions' 
+  | 'sectoral_interventions';
+
+export type EnterpriseInterventionType = 
+  | 'coaching_management_development'
+  | 'recruitment_support'
+  | 'hr_management_support'
+  | 'employment_stabilization'
+  | 'work_time_arrangements_artt'
+  | 'reclassification_committee';
+
+export type PartnershipInterventionType = 
+  | 'ad_hoc_consultation_tables'
+  | 'active_measure_support'
+  | 'other_consultation_projects';
+
+export type SectoralInterventionType = 
+  | 'sectoral_workforce_committees'
+  | 'advisory_committees';
+
+export type UserRoleType = 
+  | 'external_consultant'
+  | 'hr_specialist'
+  | 'management_coach'
+  | 'facilitation_expert'
+  | 'project_coordinator'
+  | 'hr_coordinator'
+  | 'committee_animator'
+  | 'enterprise_representative'
+  | 'worker_representative'
+  | 'employer_representative'
+  | 'ministry_personnel'
+  | 'sector_advisor'
+  | 'committee_member'
+  | 'committee_chair'
+  | 'system_admin';
+
+export type OrganizationType = 
+  | 'sme_6_99_employees'
+  | 'private_enterprise'
+  | 'worker_association'
+  | 'employer_association'
+  | 'professional_association'
+  | 'non_profit_organization'
+  | 'cooperative'
+  | 'independent_worker'
+  | 'employer_group'
+  | 'worker_group'
+  | 'training_establishment'
+  | 'municipal_administration'
+  | 'band_council'
+  | 'municipal_admin_own_hr'
+  | 'parapublic_provincial'
+  | 'parapublic_federal'
+  | 'private_training_own_hr'
+  | 'health_social_services_own_hr'
+  | 'band_council_own_hr';
+
+export type EconomicSector = 
+  | 'manufacturing'
+  | 'construction'
+  | 'transportation'
+  | 'information_technology'
+  | 'healthcare_social_services'
+  | 'education_training'
+  | 'retail_commerce'
+  | 'hospitality_tourism'
+  | 'agriculture_forestry'
+  | 'mining_extraction'
+  | 'financial_services'
+  | 'professional_services'
+  | 'arts_culture_recreation'
+  | 'public_administration'
+  | 'utilities'
+  | 'real_estate'
+  | 'waste_management'
+  | 'telecommunications'
+  | 'biotechnology'
+  | 'aerospace'
+  | 'textile_clothing'
+  | 'food_processing'
+  | 'chemicals_plastics'
+  | 'metal_transformation'
+  | 'wood_paper'
+  | 'printing_publishing'
+  | 'maritime'
+  | 'community_social_economy'
+  | 'green_economy';
+
+export type PriorityFundingSector = 
+  | 'digital_transformation_productivity'
+  | 'experienced_workers'
+  | 'community_sector'
+  | 'information_technology'
+  | 'green_economy_plan';
+
+export type ProjectStatus = 
+  | 'planning'
+  | 'active'
+  | 'paused'
+  | 'completed'
+  | 'cancelled';
+
+export type CommitteeType = 
+  | 'enterprise'
+  | 'sectoral'
+  | 'ad_hoc'
+  | 'advisory';
+
 export interface Database {
   public: {
     Tables: {
@@ -13,31 +126,50 @@ export interface Database {
         Row: {
           id: string
           name: string
-          type: string
-          project_code: string | null
-          slug?: string
-          settings?: Json
-          subscription_tier?: 'free' | 'pro' | 'enterprise'
-          subscription_status?: 'active' | 'cancelled' | 'past_due'
-          billing_email?: string
-          created_at: string
-          updated_at: string
+          name_fr: string | null
+          organization_type: OrganizationType
+          neq_number: string | null
+          sector: EconomicSector
+          employee_count: number | null
+          is_priority_sme: boolean | null
+          address: Json | null
+          contact_info: Json | null
+          eligibility_status: string | null
+          eligibility_notes: string | null
+          created_at: string | null
+          updated_at: string | null
         }
         Insert: {
           id?: string
           name: string
-          type: string
-          project_code?: string | null
-          created_at?: string
-          updated_at?: string
+          name_fr?: string | null
+          organization_type: OrganizationType
+          neq_number?: string | null
+          sector: EconomicSector
+          employee_count?: number | null
+          is_priority_sme?: boolean | null
+          address?: Json | null
+          contact_info?: Json | null
+          eligibility_status?: string | null
+          eligibility_notes?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
         Update: {
           id?: string
           name?: string
-          type?: string
-          project_code?: string | null
-          created_at?: string
-          updated_at?: string
+          name_fr?: string | null
+          organization_type?: OrganizationType
+          neq_number?: string | null
+          sector?: EconomicSector
+          employee_count?: number | null
+          is_priority_sme?: boolean | null
+          address?: Json | null
+          contact_info?: Json | null
+          eligibility_status?: string | null
+          eligibility_notes?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
       }
       users: {
@@ -46,30 +178,278 @@ export interface Database {
           email: string
           full_name: string
           organization_id: string | null
-          role: 'admin' | 'instructor' | 'learner'
-          preferred_locale: 'en' | 'fr'
-          created_at: string
-          updated_at: string
+          user_role: UserRoleType
+          preferred_locale: string
+          specializations: string[] | null
+          certifications: Json | null
+          experience_years: number | null
+          hourly_rate: number | null
+          availability: Json | null
+          profile_verified: boolean | null
+          created_at: string | null
+          updated_at: string | null
         }
         Insert: {
           id: string
           email: string
           full_name: string
           organization_id?: string | null
-          role?: 'admin' | 'instructor' | 'learner'
-          preferred_locale?: 'en' | 'fr'
-          created_at?: string
-          updated_at?: string
+          user_role?: UserRoleType
+          preferred_locale?: string
+          specializations?: string[] | null
+          certifications?: Json | null
+          experience_years?: number | null
+          hourly_rate?: number | null
+          availability?: Json | null
+          profile_verified?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
         }
         Update: {
           id?: string
           email?: string
           full_name?: string
           organization_id?: string | null
-          role?: 'admin' | 'instructor' | 'learner'
-          preferred_locale?: 'en' | 'fr'
-          created_at?: string
-          updated_at?: string
+          user_role?: UserRoleType
+          preferred_locale?: string
+          specializations?: string[] | null
+          certifications?: Json | null
+          experience_years?: number | null
+          hourly_rate?: number | null
+          availability?: Json | null
+          profile_verified?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      consultation_committees: {
+        Row: {
+          id: string
+          name: string
+          name_fr: string | null
+          committee_type: CommitteeType
+          sector: EconomicSector | null
+          organization_id: string | null
+          chairperson_id: string | null
+          objectives: string[] | null
+          objectives_fr: string[] | null
+          mandate_start_date: string
+          mandate_end_date: string | null
+          meeting_frequency: string | null
+          next_meeting: string | null
+          status: string | null
+          deliverables: Json | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          name_fr?: string | null
+          committee_type: CommitteeType
+          sector?: EconomicSector | null
+          organization_id?: string | null
+          chairperson_id?: string | null
+          objectives?: string[] | null
+          objectives_fr?: string[] | null
+          mandate_start_date: string
+          mandate_end_date?: string | null
+          meeting_frequency?: string | null
+          next_meeting?: string | null
+          status?: string | null
+          deliverables?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          name_fr?: string | null
+          committee_type?: CommitteeType
+          sector?: EconomicSector | null
+          organization_id?: string | null
+          chairperson_id?: string | null
+          objectives?: string[] | null
+          objectives_fr?: string[] | null
+          mandate_start_date?: string
+          mandate_end_date?: string | null
+          meeting_frequency?: string | null
+          next_meeting?: string | null
+          status?: string | null
+          deliverables?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      committee_members: {
+        Row: {
+          id: string
+          committee_id: string
+          user_id: string
+          role_in_committee: UserRoleType
+          organization_name: string | null
+          joined_date: string | null
+          left_date: string | null
+          is_active: boolean | null
+        }
+        Insert: {
+          id?: string
+          committee_id: string
+          user_id: string
+          role_in_committee: UserRoleType
+          organization_name?: string | null
+          joined_date?: string | null
+          left_date?: string | null
+          is_active?: boolean | null
+        }
+        Update: {
+          id?: string
+          committee_id?: string
+          user_id?: string
+          role_in_committee?: UserRoleType
+          organization_name?: string | null
+          joined_date?: string | null
+          left_date?: string | null
+          is_active?: boolean | null
+        }
+      }
+      cpe_projects: {
+        Row: {
+          id: string
+          title: string
+          title_fr: string | null
+          description: string | null
+          description_fr: string | null
+          category: InterventionCategory
+          enterprise_intervention_type: EnterpriseInterventionType | null
+          partnership_intervention_type: PartnershipInterventionType | null
+          sectoral_intervention_type: SectoralInterventionType | null
+          organization_id: string
+          sector: EconomicSector
+          total_budget: number
+          ministry_contribution: number
+          funding_rate: number | null
+          priority_sector: PriorityFundingSector | null
+          start_date: string
+          end_date: string
+          duration_months: number
+          extension_count: number | null
+          project_coordinator_id: string | null
+          committee_id: string | null
+          status: ProjectStatus | null
+          progress_percentage: number | null
+          objectives: Json | null
+          deliverables: Json | null
+          outcomes: Json | null
+          reporting_frequency: string | null
+          last_report_date: string | null
+          next_report_due: string | null
+          compliance_status: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          title_fr?: string | null
+          description?: string | null
+          description_fr?: string | null
+          category: InterventionCategory
+          enterprise_intervention_type?: EnterpriseInterventionType | null
+          partnership_intervention_type?: PartnershipInterventionType | null
+          sectoral_intervention_type?: SectoralInterventionType | null
+          organization_id: string
+          sector: EconomicSector
+          total_budget: number
+          ministry_contribution: number
+          funding_rate?: number | null
+          priority_sector?: PriorityFundingSector | null
+          start_date: string
+          end_date: string
+          duration_months: number
+          extension_count?: number | null
+          project_coordinator_id?: string | null
+          committee_id?: string | null
+          status?: ProjectStatus | null
+          progress_percentage?: number | null
+          objectives?: Json | null
+          deliverables?: Json | null
+          outcomes?: Json | null
+          reporting_frequency?: string | null
+          last_report_date?: string | null
+          next_report_due?: string | null
+          compliance_status?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          title_fr?: string | null
+          description?: string | null
+          description_fr?: string | null
+          category?: InterventionCategory
+          enterprise_intervention_type?: EnterpriseInterventionType | null
+          partnership_intervention_type?: PartnershipInterventionType | null
+          sectoral_intervention_type?: SectoralInterventionType | null
+          organization_id?: string
+          sector?: EconomicSector
+          total_budget?: number
+          ministry_contribution?: number
+          funding_rate?: number | null
+          priority_sector?: PriorityFundingSector | null
+          start_date?: string
+          end_date?: string
+          duration_months?: number
+          extension_count?: number | null
+          project_coordinator_id?: string | null
+          committee_id?: string | null
+          status?: ProjectStatus | null
+          progress_percentage?: number | null
+          objectives?: Json | null
+          deliverables?: Json | null
+          outcomes?: Json | null
+          reporting_frequency?: string | null
+          last_report_date?: string | null
+          next_report_due?: string | null
+          compliance_status?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      project_consultants: {
+        Row: {
+          id: string
+          project_id: string
+          consultant_id: string
+          role_description: string | null
+          hourly_rate: number | null
+          total_hours_allocated: number | null
+          hours_completed: number | null
+          start_date: string | null
+          end_date: string | null
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          consultant_id: string
+          role_description?: string | null
+          hourly_rate?: number | null
+          total_hours_allocated?: number | null
+          hours_completed?: number | null
+          start_date?: string | null
+          end_date?: string | null
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          consultant_id?: string
+          role_description?: string | null
+          hourly_rate?: number | null
+          total_hours_allocated?: number | null
+          hours_completed?: number | null
+          start_date?: string | null
+          end_date?: string | null
         }
       }
       courses: {
@@ -79,11 +459,30 @@ export interface Database {
           title_fr: string
           description_en: string | null
           description_fr: string | null
-          duration_minutes: number
-          created_by: string
-          is_published: boolean
-          created_at: string
-          updated_at: string
+          category: InterventionCategory
+          enterprise_intervention_type: EnterpriseInterventionType | null
+          partnership_intervention_type: PartnershipInterventionType | null
+          sectoral_intervention_type: SectoralInterventionType | null
+          target_sector: EconomicSector | null
+          duration_hours: number
+          difficulty_level: string | null
+          prerequisites: string[] | null
+          learning_objectives_en: string[] | null
+          learning_objectives_fr: string[] | null
+          competencies: string[] | null
+          target_roles: UserRoleType[] | null
+          assessment_type: string | null
+          has_certification: boolean | null
+          certification_pathway_id: string | null
+          funding_eligible: boolean | null
+          priority_funding: PriorityFundingSector | null
+          consultation_required: boolean | null
+          collaboration_tools: string[] | null
+          created_by: string | null
+          is_published: boolean | null
+          language: string | null
+          created_at: string | null
+          updated_at: string | null
         }
         Insert: {
           id?: string
@@ -91,11 +490,30 @@ export interface Database {
           title_fr: string
           description_en?: string | null
           description_fr?: string | null
-          duration_minutes: number
-          created_by: string
-          is_published?: boolean
-          created_at?: string
-          updated_at?: string
+          category: InterventionCategory
+          enterprise_intervention_type?: EnterpriseInterventionType | null
+          partnership_intervention_type?: PartnershipInterventionType | null
+          sectoral_intervention_type?: SectoralInterventionType | null
+          target_sector?: EconomicSector | null
+          duration_hours: number
+          difficulty_level?: string | null
+          prerequisites?: string[] | null
+          learning_objectives_en?: string[] | null
+          learning_objectives_fr?: string[] | null
+          competencies?: string[] | null
+          target_roles?: UserRoleType[] | null
+          assessment_type?: string | null
+          has_certification?: boolean | null
+          certification_pathway_id?: string | null
+          funding_eligible?: boolean | null
+          priority_funding?: PriorityFundingSector | null
+          consultation_required?: boolean | null
+          collaboration_tools?: string[] | null
+          created_by?: string | null
+          is_published?: boolean | null
+          language?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
         Update: {
           id?: string
@@ -103,11 +521,30 @@ export interface Database {
           title_fr?: string
           description_en?: string | null
           description_fr?: string | null
-          duration_minutes?: number
-          created_by?: string
-          is_published?: boolean
-          created_at?: string
-          updated_at?: string
+          category?: InterventionCategory
+          enterprise_intervention_type?: EnterpriseInterventionType | null
+          partnership_intervention_type?: PartnershipInterventionType | null
+          sectoral_intervention_type?: SectoralInterventionType | null
+          target_sector?: EconomicSector | null
+          duration_hours?: number
+          difficulty_level?: string | null
+          prerequisites?: string[] | null
+          learning_objectives_en?: string[] | null
+          learning_objectives_fr?: string[] | null
+          competencies?: string[] | null
+          target_roles?: UserRoleType[] | null
+          assessment_type?: string | null
+          has_certification?: boolean | null
+          certification_pathway_id?: string | null
+          funding_eligible?: boolean | null
+          priority_funding?: PriorityFundingSector | null
+          consultation_required?: boolean | null
+          collaboration_tools?: string[] | null
+          created_by?: string | null
+          is_published?: boolean | null
+          language?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
       }
       modules: {
@@ -117,11 +554,15 @@ export interface Database {
           title_en: string
           title_fr: string
           order_index: number
-          video_url: string | null
           content_en: string | null
           content_fr: string | null
-          created_at: string
-          updated_at: string
+          video_url: string | null
+          resources: Json | null
+          has_quiz: boolean | null
+          has_practical_exercise: boolean | null
+          collaboration_activity: Json | null
+          created_at: string | null
+          updated_at: string | null
         }
         Insert: {
           id?: string
@@ -129,11 +570,15 @@ export interface Database {
           title_en: string
           title_fr: string
           order_index: number
-          video_url?: string | null
           content_en?: string | null
           content_fr?: string | null
-          created_at?: string
-          updated_at?: string
+          video_url?: string | null
+          resources?: Json | null
+          has_quiz?: boolean | null
+          has_practical_exercise?: boolean | null
+          collaboration_activity?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
         }
         Update: {
           id?: string
@@ -141,43 +586,227 @@ export interface Database {
           title_en?: string
           title_fr?: string
           order_index?: number
-          video_url?: string | null
           content_en?: string | null
           content_fr?: string | null
-          created_at?: string
-          updated_at?: string
+          video_url?: string | null
+          resources?: Json | null
+          has_quiz?: boolean | null
+          has_practical_exercise?: boolean | null
+          collaboration_activity?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
         }
       }
-      quizzes: {
+      assessment_tools: {
         Row: {
           id: string
-          module_id: string
-          question_en: string
-          question_fr: string
-          options: Json
-          correct_answer: number
-          created_at: string
-          updated_at: string
+          name_en: string
+          name_fr: string
+          tool_type: string | null
+          category: InterventionCategory
+          target_roles: UserRoleType[] | null
+          questions: Json
+          scoring_criteria: Json
+          report_template: string | null
+          recommendation_rules: Json | null
+          is_published: boolean | null
+          created_by: string | null
+          created_at: string | null
+          updated_at: string | null
         }
         Insert: {
           id?: string
-          module_id: string
-          question_en: string
-          question_fr: string
-          options: Json
-          correct_answer: number
-          created_at?: string
-          updated_at?: string
+          name_en: string
+          name_fr: string
+          tool_type?: string | null
+          category: InterventionCategory
+          target_roles?: UserRoleType[] | null
+          questions: Json
+          scoring_criteria: Json
+          report_template?: string | null
+          recommendation_rules?: Json | null
+          is_published?: boolean | null
+          created_by?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
         Update: {
           id?: string
-          module_id?: string
-          question_en?: string
-          question_fr?: string
-          options?: Json
-          correct_answer?: number
-          created_at?: string
-          updated_at?: string
+          name_en?: string
+          name_fr?: string
+          tool_type?: string | null
+          category?: InterventionCategory
+          target_roles?: UserRoleType[] | null
+          questions?: Json
+          scoring_criteria?: Json
+          report_template?: string | null
+          recommendation_rules?: Json | null
+          is_published?: boolean | null
+          created_by?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      assessment_results: {
+        Row: {
+          id: string
+          assessment_tool_id: string | null
+          user_id: string | null
+          project_id: string | null
+          responses: Json
+          scores: Json
+          recommendations: Json | null
+          report_data: Json | null
+          status: string | null
+          completed_at: string | null
+          reviewed_by: string | null
+          reviewed_at: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          assessment_tool_id?: string | null
+          user_id?: string | null
+          project_id?: string | null
+          responses: Json
+          scores: Json
+          recommendations?: Json | null
+          report_data?: Json | null
+          status?: string | null
+          completed_at?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          assessment_tool_id?: string | null
+          user_id?: string | null
+          project_id?: string | null
+          responses?: Json
+          scores?: Json
+          recommendations?: Json | null
+          report_data?: Json | null
+          status?: string | null
+          completed_at?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      certification_pathways: {
+        Row: {
+          id: string
+          name_en: string
+          name_fr: string
+          description_en: string | null
+          description_fr: string | null
+          category: InterventionCategory
+          target_role: UserRoleType
+          prerequisites: string[] | null
+          required_courses: string[] | null
+          optional_courses: string[] | null
+          required_assessments: string[] | null
+          minimum_experience_months: number | null
+          validity_period_months: number
+          renewal_requirements: string[] | null
+          issuing_authority: string
+          recognized_by: string[] | null
+          stages: Json
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name_en: string
+          name_fr: string
+          description_en?: string | null
+          description_fr?: string | null
+          category: InterventionCategory
+          target_role: UserRoleType
+          prerequisites?: string[] | null
+          required_courses?: string[] | null
+          optional_courses?: string[] | null
+          required_assessments?: string[] | null
+          minimum_experience_months?: number | null
+          validity_period_months: number
+          renewal_requirements?: string[] | null
+          issuing_authority: string
+          recognized_by?: string[] | null
+          stages: Json
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name_en?: string
+          name_fr?: string
+          description_en?: string | null
+          description_fr?: string | null
+          category?: InterventionCategory
+          target_role?: UserRoleType
+          prerequisites?: string[] | null
+          required_courses?: string[] | null
+          optional_courses?: string[] | null
+          required_assessments?: string[] | null
+          minimum_experience_months?: number | null
+          validity_period_months?: number
+          renewal_requirements?: string[] | null
+          issuing_authority?: string
+          recognized_by?: string[] | null
+          stages?: Json
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      user_certifications: {
+        Row: {
+          id: string
+          user_id: string
+          certification_pathway_id: string | null
+          status: string | null
+          progress_percentage: number | null
+          current_stage: number | null
+          started_at: string | null
+          completed_at: string | null
+          expires_at: string | null
+          certificate_number: string | null
+          certificate_data: Json | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          certification_pathway_id?: string | null
+          status?: string | null
+          progress_percentage?: number | null
+          current_stage?: number | null
+          started_at?: string | null
+          completed_at?: string | null
+          expires_at?: string | null
+          certificate_number?: string | null
+          certificate_data?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          certification_pathway_id?: string | null
+          status?: string | null
+          progress_percentage?: number | null
+          current_stage?: number | null
+          started_at?: string | null
+          completed_at?: string | null
+          expires_at?: string | null
+          certificate_number?: string | null
+          certificate_data?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
         }
       }
       enrollments: {
@@ -185,31 +814,43 @@ export interface Database {
           id: string
           user_id: string
           course_id: string
-          enrolled_at: string
+          project_id: string | null
+          enrolled_at: string | null
+          started_at: string | null
           completed_at: string | null
-          progress_percentage: number
-          certificate_issued: boolean
-          certificate_url: string | null
+          progress_percentage: number | null
+          current_module_id: string | null
+          status: string | null
+          final_score: number | null
+          feedback: string | null
         }
         Insert: {
           id?: string
           user_id: string
           course_id: string
-          enrolled_at?: string
+          project_id?: string | null
+          enrolled_at?: string | null
+          started_at?: string | null
           completed_at?: string | null
-          progress_percentage?: number
-          certificate_issued?: boolean
-          certificate_url?: string | null
+          progress_percentage?: number | null
+          current_module_id?: string | null
+          status?: string | null
+          final_score?: number | null
+          feedback?: string | null
         }
         Update: {
           id?: string
           user_id?: string
           course_id?: string
-          enrolled_at?: string
+          project_id?: string | null
+          enrolled_at?: string | null
+          started_at?: string | null
           completed_at?: string | null
-          progress_percentage?: number
-          certificate_issued?: boolean
-          certificate_url?: string | null
+          progress_percentage?: number | null
+          current_module_id?: string | null
+          status?: string | null
+          final_score?: number | null
+          feedback?: string | null
         }
       }
       module_progress: {
@@ -217,211 +858,34 @@ export interface Database {
           id: string
           enrollment_id: string
           module_id: string
-          completed: boolean
-          quiz_score: number | null
+          started_at: string | null
           completed_at: string | null
-          created_at: string
-          updated_at: string
+          time_spent_minutes: number | null
+          status: string | null
+          score: number | null
+          interactions: Json | null
         }
         Insert: {
           id?: string
           enrollment_id: string
           module_id: string
-          completed?: boolean
-          quiz_score?: number | null
+          started_at?: string | null
           completed_at?: string | null
-          created_at?: string
-          updated_at?: string
+          time_spent_minutes?: number | null
+          status?: string | null
+          score?: number | null
+          interactions?: Json | null
         }
         Update: {
           id?: string
           enrollment_id?: string
           module_id?: string
-          completed?: boolean
-          quiz_score?: number | null
+          started_at?: string | null
           completed_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      artifacts: {
-        Row: {
-          id: string
-          enrollment_id: string
-          file_name: string
-          file_url: string
-          file_type: string
-          uploaded_at: string
-        }
-        Insert: {
-          id?: string
-          enrollment_id: string
-          file_name: string
-          file_url: string
-          file_type: string
-          uploaded_at?: string
-        }
-        Update: {
-          id?: string
-          enrollment_id?: string
-          file_name?: string
-          file_url?: string
-          file_type?: string
-          uploaded_at?: string
-        }
-      }
-      audit_logs: {
-        Row: {
-          id: string
-          user_id: string | null
-          action: string
-          resource_type: string
-          resource_id: string | null
-          metadata: Json | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          user_id?: string | null
-          action: string
-          resource_type: string
-          resource_id?: string | null
-          metadata?: Json | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          user_id?: string | null
-          action?: string
-          resource_type?: string
-          resource_id?: string | null
-          metadata?: Json | null
-          created_at?: string
-        }
-      }
-      permissions: {
-        Row: {
-          id: string
-          name: string
-          display_name_en: string
-          display_name_fr: string
-          category: string
-          description_en: string | null
-          description_fr: string | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          display_name_en: string
-          display_name_fr: string
-          category: string
-          description_en?: string | null
-          description_fr?: string | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          display_name_en?: string
-          display_name_fr?: string
-          category?: string
-          description_en?: string | null
-          description_fr?: string | null
-          created_at?: string
-        }
-      }
-      roles: {
-        Row: {
-          id: string
-          organization_id: string | null
-          name: string
-          display_name_en: string
-          display_name_fr: string
-          description_en: string | null
-          description_fr: string | null
-          is_system_role: boolean
-          is_default: boolean
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          organization_id?: string | null
-          name: string
-          display_name_en: string
-          display_name_fr: string
-          description_en?: string | null
-          description_fr?: string | null
-          is_system_role?: boolean
-          is_default?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          organization_id?: string | null
-          name?: string
-          display_name_en?: string
-          display_name_fr?: string
-          description_en?: string | null
-          description_fr?: string | null
-          is_system_role?: boolean
-          is_default?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      role_permissions: {
-        Row: {
-          id: string
-          role_id: string
-          permission_id: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          role_id: string
-          permission_id: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          role_id?: string
-          permission_id?: string
-          created_at?: string
-        }
-      }
-      user_roles: {
-        Row: {
-          id: string
-          user_id: string
-          role_id: string
-          organization_id: string | null
-          assigned_by: string | null
-          assigned_at: string
-          expires_at: string | null
-          is_active: boolean
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          role_id: string
-          organization_id?: string | null
-          assigned_by?: string | null
-          assigned_at?: string
-          expires_at?: string | null
-          is_active?: boolean
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          role_id?: string
-          organization_id?: string | null
-          assigned_by?: string | null
-          assigned_at?: string
-          expires_at?: string | null
-          is_active?: boolean
+          time_spent_minutes?: number | null
+          status?: string | null
+          score?: number | null
+          interactions?: Json | null
         }
       }
     }
@@ -429,11 +893,24 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: {
+          user_uuid: string
+        }
+        Returns: UserRoleType
+      }
     }
     Enums: {
-      user_role: 'admin' | 'instructor' | 'learner'
-      locale: 'en' | 'fr'
+      intervention_category: InterventionCategory
+      enterprise_intervention_type: EnterpriseInterventionType
+      partnership_intervention_type: PartnershipInterventionType
+      sectoral_intervention_type: SectoralInterventionType
+      user_role_type: UserRoleType
+      organization_type: OrganizationType
+      economic_sector: EconomicSector
+      priority_funding_sector: PriorityFundingSector
+      project_status: ProjectStatus
+      committee_type: CommitteeType
     }
   }
 }

@@ -194,7 +194,7 @@ export default async function DashboardPageWithScreen({ params: { locale } }: { 
                           course_id: course.id,
                           enrolled_at: new Date().toISOString(),
                           progress_percentage: 0
-                        })
+                        } as any)
                         redirect(`/${locale}/dashboard`)
                       }}>
                         <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded transition-colors">

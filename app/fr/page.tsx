@@ -1,11 +1,5 @@
-import HomePageContentFr from '@/components/homepage-fr'
+import HomePageContentFr from '@/components/homepage-fr-new'
 
 export default function FrenchHomePage() {
-  return (
-    <html lang="fr" suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">
-        <HomePageContentFr />
-      </body>
-    </html>
-  )
+  return <HomePageContentFr />
 }

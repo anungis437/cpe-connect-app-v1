@@ -73,27 +73,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [supabase])
 
   const calculatePermissions = useCallback((profile: UserProfile): UserPermissions => {
-    if (!profile.user_roles) {
-      return getDefaultPermissions()
-    }
-
-    const permissions = new Set<string>()
-    
-    profile.user_roles.forEach((userRole: any) => {
-      userRole.role?.role_permissions?.forEach((rolePermission: any) => {
-        permissions.add(rolePermission.permission.name)
-      })
-    })
+    // CPE role-based permissions
+    const role = profile.user_role
+    const isSystemAdmin = role === 'system_admin'
+    const isExternalConsultant = role === 'external_consultant'
+    const isHRSpecialist = role === 'hr_specialist'
+    const isProjectCoordinator = role === 'project_coordinator'
+    const isCommitteeChair = role === 'committee_chair'
+    const isMinistryPersonnel = role === 'ministry_personnel'
 
     return {
-      canManageUsers: permissions.has('users.create') && permissions.has('users.update'),
-      canManageOrganization: permissions.has('organization.update'),
-      canViewAnalytics: permissions.has('organization.analytics'),
-      canManageCourses: permissions.has('courses.create') && permissions.has('courses.update'),
-      canIssueCertificates: permissions.has('courses.publish'),
-      canViewReports: permissions.has('organization.analytics'),
-      isOrgAdmin: profile.user_roles.some((ur: any) => ur.role?.name === 'org_admin'),
-      isSuperAdmin: permissions.has('system.admin')
+      canManageUsers: isSystemAdmin || isProjectCoordinator || isMinistryPersonnel,
+      canManageOrganization: isSystemAdmin || isProjectCoordinator,
+      canViewAnalytics: isSystemAdmin || isProjectCoordinator || isMinistryPersonnel || isHRSpecialist,
+      canManageCourses: isSystemAdmin || isExternalConsultant || isHRSpecialist,
+      canIssueCertificates: isSystemAdmin || isExternalConsultant || isHRSpecialist,
+      canViewReports: isSystemAdmin || isProjectCoordinator || isMinistryPersonnel || isHRSpecialist,
+      isOrgAdmin: isProjectCoordinator || isCommitteeChair,
+      isSuperAdmin: isSystemAdmin
     }
   }, [])
 

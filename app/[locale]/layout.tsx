@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { cn } from '@/lib/design-system/utils'
 import { ThemeProvider, ThemeScript } from '@/components/ui'
+import PublicHeader from '@/components/navigation/public-header'
+import PublicFooter from '@/components/navigation/public-footer'
 import enMessages from '../../messages/en.json'
 import frMessages from '../../messages/fr.json'
 
@@ -58,20 +60,16 @@ export default function LocaleLayout({
   const localeMessages = messages[locale as keyof typeof messages] || messages.en
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={cn(inter.variable, jetbrainsMono.variable, 'min-h-screen bg-background font-sans antialiased')}>
+    <NextIntlClientProvider locale={locale} messages={localeMessages}>
+      <ThemeProvider
+        defaultTheme="light"
+        enableSystem
+        attribute="data-theme"
+        storageKey="cpe-connect-theme"
+      >
         <ThemeScript storageKey="cpe-connect-theme" />
-        <NextIntlClientProvider locale={locale} messages={localeMessages}>
-          <ThemeProvider
-            defaultTheme="light"
-            enableSystem
-            attribute="data-theme"
-            storageKey="cpe-connect-theme"
-          >
-            {children}
-          </ThemeProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+        {children}
+      </ThemeProvider>
+    </NextIntlClientProvider>
   )
 }

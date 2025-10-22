@@ -6,13 +6,6 @@ import { Database } from '@/types/database'
 
 type UserWithRoles = Database['public']['Tables']['users']['Row'] & {
   organization?: Database['public']['Tables']['organizations']['Row']
-  user_roles?: Array<{
-    role: Database['public']['Tables']['roles']['Row'] & {
-      role_permissions?: Array<{
-        permission: Database['public']['Tables']['permissions']['Row']
-      }>
-    }
-  }>
 }
 
 /**
@@ -96,35 +89,28 @@ export class AuthService {
   async getUserPermissions(userId: string, organizationId?: string): Promise<UserPermissions> {
     const profile = await this.getUserProfile(userId)
     
-    if (!profile || !profile.user_roles) {
+    if (!profile) {
       return this.getDefaultPermissions()
     }
 
-    // Filter roles by organization if specified
-    const relevantRoles = profile.user_roles.filter(userRole => 
-      !organizationId || 
-      userRole.role.is_system_role || 
-      userRole.role.organization_id === organizationId
-    )
-
-    // Collect all permissions from relevant roles
-    const permissions = new Set<string>()
-    
-    relevantRoles.forEach(userRole => {
-      userRole.role.role_permissions?.forEach(rolePermission => {
-        permissions.add(rolePermission.permission.name)
-      })
-    })
+    // CPE role-based permissions
+    const role = profile.user_role
+    const isSystemAdmin = role === 'system_admin'
+    const isExternalConsultant = role === 'external_consultant'
+    const isHRSpecialist = role === 'hr_specialist'
+    const isProjectCoordinator = role === 'project_coordinator'
+    const isCommitteeChair = role === 'committee_chair'
+    const isMinistryPersonnel = role === 'ministry_personnel'
 
     return {
-      canManageUsers: permissions.has('users.create') && permissions.has('users.update'),
-      canManageOrganization: permissions.has('organization.update'),
-      canViewAnalytics: permissions.has('organization.analytics'),
-      canManageCourses: permissions.has('courses.create') && permissions.has('courses.update'),
-      canIssueCertificates: permissions.has('courses.publish'),
-      canViewReports: permissions.has('organization.analytics'),
-      isOrgAdmin: relevantRoles.some(ur => ur.role.name === 'org_admin'),
-      isSuperAdmin: permissions.has('system.admin')
+      canManageUsers: isSystemAdmin || isProjectCoordinator || isMinistryPersonnel,
+      canManageOrganization: isSystemAdmin || isProjectCoordinator,
+      canViewAnalytics: isSystemAdmin || isProjectCoordinator || isMinistryPersonnel || isHRSpecialist,
+      canManageCourses: isSystemAdmin || isExternalConsultant || isHRSpecialist,
+      canIssueCertificates: isSystemAdmin || isExternalConsultant || isHRSpecialist,
+      canViewReports: isSystemAdmin || isProjectCoordinator || isMinistryPersonnel || isHRSpecialist,
+      isOrgAdmin: isProjectCoordinator || isCommitteeChair,
+      isSuperAdmin: isSystemAdmin
     }
   }
 
@@ -149,9 +135,9 @@ export class AuthService {
       
       return {
         organizationId: organization.id,
-        organizationSlug: organization.slug || organization.name.toLowerCase().replace(/\s+/g, '-'),
-        subscriptionTier: organization.subscription_tier || 'free',
-        features: this.getFeaturesByTier(organization.subscription_tier || 'free')
+        organizationSlug: organization.name.toLowerCase().replace(/\s+/g, '-'),
+        subscriptionTier: 'enterprise', // CPE organizations use enterprise features
+        features: this.getFeaturesByTier('enterprise')
       }
     } catch (error) {
       console.error('Failed to get tenant context:', error)

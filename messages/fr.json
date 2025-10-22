@@ -1,8 +1,78 @@
 {
   "app": {
-    "title": "Académie CPE",
-    "subtitle": "Système de gestion de l'apprentissage",
-    "welcome": "Bienvenue à l'Académie CPE"
+    "title": "CPE Connect",
+    "subtitle": "Plateforme de Concertation pour l'Emploi",
+    "welcome": "Bienvenue à CPE Connect",
+    "tagline": "Votre plateforme de concertation pour l'emploi et le développement des ressources humaines"
+  },
+  "home": {
+    "hero": {
+      "title": "CPE Connect",
+      "subtitle": "Concertation pour l'emploi",
+      "description": "La plateforme officielle du ministère québécois pour les interventions en ressources humaines, la concertation sectorielle et le développement des compétences.",
+      "cta": "Commencer votre projet"
+    },
+    "interventions": {
+      "title": "Trois catégories d'interventions",
+      "enterprise": {
+        "title": "Interventions en entreprise",
+        "description": "Accompagnement coaching, soutien au recrutement, gestion RH, stabilisation d'emploi",
+        "types": "6 types d'interventions disponibles"
+      },
+      "partnership": {
+        "title": "Interventions de partenariat",
+        "description": "Tables de concertation ad hoc, soutien aux mesures actives, projets de concertation",
+        "types": "3 types d'interventions disponibles"
+      },
+      "sectoral": {
+        "title": "Interventions sectorielles",
+        "description": "Comités sectoriels de main-d'œuvre, comités consultatifs par secteur",
+        "types": "29 secteurs économiques couverts"
+      }
+    },
+    "roles": {
+      "title": "Pour tous les acteurs de l'emploi",
+      "consultants": {
+        "title": "Consultants externes",
+        "description": "Spécialistes RH, coachs en gestion, experts en facilitation"
+      },
+      "coordinators": {
+        "title": "Coordonnateurs internes",
+        "description": "Coordonnateurs de projet, animateurs de comités, coordonnateurs RH"
+      },
+      "representatives": {
+        "title": "Représentants organisationnels",
+        "description": "Représentants d'entreprise, travailleurs, employeurs"
+      },
+      "ministry": {
+        "title": "Personnel ministériel",
+        "description": "Conseillers sectoriels, personnel du ministère"
+      }
+    },
+    "features": {
+      "title": "Fonctionnalités de la plateforme",
+      "projects": {
+        "title": "Gestion de projets CPE",
+        "description": "Création, suivi et gestion complète de projets avec financement de 50-75%"
+      },
+      "committees": {
+        "title": "Comités de concertation",
+        "description": "Outils de collaboration multi-parties prenantes et gestion de réunions"
+      },
+      "assessments": {
+        "title": "Diagnostics RH",
+        "description": "Outils d'évaluation des besoins organisationnels et individuels"
+      },
+      "certification": {
+        "title": "Parcours de certification",
+        "description": "Certification reconnue par le ministère pour différents rôles spécialisés"
+      }
+    },
+    "funding": {
+      "title": "Financement disponible",
+      "description": "Contribution ministérielle de 50% à 75% selon le secteur prioritaire",
+      "priority_sectors": "Secteurs prioritaires : transformation numérique, travailleurs expérimentés, secteur communautaire"
+    }
   },
   "nav": {
     "home": "Accueil",

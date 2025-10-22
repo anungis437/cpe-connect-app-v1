@@ -1,15 +1,14 @@
-import * as Sentry from '@sentry/nextjs'
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
+import PublicHeader from '@/components/navigation/public-header'
+import PublicFooter from '@/components/navigation/public-footer'
 
-export function generateMetadata(): Metadata {
-  return {
-    title: 'CPE Academy - LMS',
-    description: 'Bilingual Self-Paced Learning Management System',
-    other: {
-      ...Sentry.getTraceData()
-    }
-  }
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'CPE Connect - Plateforme de Formation Professionnelle',
+  description: 'Plateforme de développement professionnel continu pour les secteurs de la santé et services sociaux au Québec',
 }
 
 export default function RootLayout({
@@ -17,7 +16,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // In Next.js App Router with internationalization, 
-  // the locale-specific layout provides the html/body structure
-  return children
+  return (
+    <html lang="fr">
+      <body className={inter.className}>
+        <div className="min-h-screen flex flex-col">
+          <PublicHeader />
+          <main className="flex-1">
+            {children}
+          </main>
+          <PublicFooter />
+        </div>
+      </body>
+    </html>
+  )
 }

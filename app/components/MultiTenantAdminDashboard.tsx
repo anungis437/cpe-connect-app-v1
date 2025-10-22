@@ -115,8 +115,8 @@ export default function MultiTenantAdminDashboard() {
       </div>
 
       <div className="space-y-2 text-sm text-gray-600">
-        <p><strong>Type:</strong> {organization.type}</p>
-        <p><strong>Created:</strong> {new Date(organization.created_at).toLocaleDateString()}</p>
+        <p><strong>Type:</strong> {organization.organization_type}</p>
+        <p><strong>Created:</strong> {organization.created_at ? new Date(organization.created_at).toLocaleDateString() : 'N/A'}</p>
         {organization.subscription_plan && (
           <p><strong>Plan:</strong> {organization.subscription_plan.display_name_en}</p>
         )}

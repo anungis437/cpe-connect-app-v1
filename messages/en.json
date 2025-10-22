@@ -1,8 +1,78 @@
 {
   "app": {
-    "title": "CPE Academy",
-    "subtitle": "Learning Management System",
-    "welcome": "Welcome to CPE Academy"
+    "title": "CPE Connect",
+    "subtitle": "Employment Consultation Platform",
+    "welcome": "Welcome to CPE Connect",
+    "tagline": "Your employment consultation and human resources development platform"
+  },
+  "home": {
+    "hero": {
+      "title": "CPE Connect",
+      "subtitle": "Employment Consultation",
+      "description": "The official Quebec Ministry platform for human resources interventions, sectoral consultation, and skills development.",
+      "cta": "Start your project"
+    },
+    "interventions": {
+      "title": "Three intervention categories",
+      "enterprise": {
+        "title": "Enterprise interventions",
+        "description": "Coaching support, recruitment assistance, HR management, employment stabilization",
+        "types": "6 intervention types available"
+      },
+      "partnership": {
+        "title": "Partnership interventions",
+        "description": "Ad hoc consultation tables, active measure support, consultation projects",
+        "types": "3 intervention types available"
+      },
+      "sectoral": {
+        "title": "Sectoral interventions",
+        "description": "Sectoral workforce committees, advisory committees by sector",
+        "types": "29 economic sectors covered"
+      }
+    },
+    "roles": {
+      "title": "For all employment stakeholders",
+      "consultants": {
+        "title": "External consultants",
+        "description": "HR specialists, management coaches, facilitation experts"
+      },
+      "coordinators": {
+        "title": "Internal coordinators",
+        "description": "Project coordinators, committee animators, HR coordinators"
+      },
+      "representatives": {
+        "title": "Organizational representatives",
+        "description": "Enterprise, worker, and employer representatives"
+      },
+      "ministry": {
+        "title": "Ministry personnel",
+        "description": "Sector advisors, ministry staff"
+      }
+    },
+    "features": {
+      "title": "Platform features",
+      "projects": {
+        "title": "CPE project management",
+        "description": "Complete project creation, tracking, and management with 50-75% funding"
+      },
+      "committees": {
+        "title": "Consultation committees",
+        "description": "Multi-stakeholder collaboration tools and meeting management"
+      },
+      "assessments": {
+        "title": "HR diagnostics",
+        "description": "Assessment tools for organizational and individual needs analysis"
+      },
+      "certification": {
+        "title": "Certification pathways",
+        "description": "Ministry-recognized certification for different specialized roles"
+      }
+    },
+    "funding": {
+      "title": "Available funding",
+      "description": "Ministry contribution of 50% to 75% based on priority sector",
+      "priority_sectors": "Priority sectors: digital transformation, experienced workers, community sector"
+    }
   },
   "nav": {
     "home": "Home",

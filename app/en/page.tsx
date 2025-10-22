@@ -1,11 +1,5 @@
-import HomePageContent from '@/components/homepage-en'
+import HomePageContent from '@/components/homepage-en-new'
 
 export default function HomePage() {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">
-        <HomePageContent />
-      </body>
-    </html>
-  )
+  return <HomePageContent />
 }
